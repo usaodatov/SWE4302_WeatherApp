@@ -23,14 +23,8 @@ to retrieve weather data, then invokes the display_weather function to present t
 
 7. If the retrieval of weather data fails or the city is invalid, the script will display an error message.
 
-8. The file backend_code.py includes two functions used in the script main.py. These are get_weather_data and display_weather.
-
-9. The functions served by main.py script import these functions with open arms and use them with gusto 
-to communicate glorious tidings from the OpenWeatherMap API and present the everyday plebeian with 
-head-scratching data replete with weather specifics.
-
-10. In other scripts that require weather data from the OpenWeatherMap API, 
-the backend_code.py file can be reused to obtain and present that data.
+8. The file backend_code.py includes two functions used in the script main.py. These are get_weather_data
+and display_weather.
 
 '''
 
@@ -40,17 +34,17 @@ def get_weather_data(city): # Function to get weather data from OpenWeatherMap A
     api_key = "e43ee3855b6b5e89e32ac6c050235f29"  # My API @openweathermap
     base_url = f"http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
     try:
-        response = requests.get(base_url)                                   # Send a GET request to the OpenWeatherMap API
+        response = requests.get(base_url)                      # Send a GET request to the OpenWeatherMap API
         data = response.json()                                              # Parse the JSON response
 
      # 'Invalid city' error handling based on "cod"
-        if data.get("cod") != 200:                                          # Check if the response status code is 200 (OK)
+        if data.get("cod") != 200:                             # Check if the response status code is 200 (OK)
             print(f"Error: {data.get('message', 'Unknown error')}")
             return None
 
-        return data                                                         # Return the weather data as a dictionary
+        return data                                            # Return the weather data as a dictionary
 
-    except requests.exceptions.RequestException as e:                       # Catch any network exception
+    except requests.exceptions.RequestException as e:          # Catch any network exception
         # Display error message if an error occurs
         print(f"Error retrieving weather data for {city}: Error Code:  {e}")
         return None                                                         # Return None if an error occurs
@@ -60,7 +54,7 @@ def display_weather(data): # Function to display weather data
         # Extract weather details and assign to variables
         city = data["name"]                                                 # Get city name
         country = data["sys"]["country"]                                    # Get country code
-        temp = data["main"]["temp"] - 273.15                                # Convert from Kelvin to Celsius c = K-273.15
+        temp = data["main"]["temp"] - 273.15                    # Convert from Kelvin to Celsius c = K-273.15
         condition = data["weather"][0]["description"]                       # Get weather condition
         humidity = data["main"]["humidity"]                                 # Get humidity
         wind_speed = data["wind"]["speed"]                                  # Get wind speed
@@ -71,5 +65,5 @@ def display_weather(data): # Function to display weather data
         print(f"Condition: {condition}")
         print(f"Humidity: {humidity}%")
         print(f"Wind Speed: {wind_speed} m/s")
-    except KeyError:                                                   # Catch any KeyError exception
-        print("Invalid data received.")                                # Display error message if invalid data received
+    except KeyError:                                         # Catch any KeyError exception
+        print("Invalid data received.")                      # Display error message if invalid data received
